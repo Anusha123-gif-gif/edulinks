@@ -4,9 +4,13 @@ const cors = require("cors");
 const bcrypt = require("bcryptjs");
 require("./db");
 
+// Models
 const Admin = require("./models/Admin");
 
+// Routes
 const departmentRoutes = require("./routes/departmentRoutes");
+const subjectRoutes = require("./routes/subjectRoutes");
+const topicRoutes = require("./routes/topicRoutes");
 
 const app = express();
 const PORT = 3000;
@@ -14,16 +18,19 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
+// ------------------------------
+// HOME ROUTE
+// ------------------------------
 app.get("/", (req, res) => {
     res.send("MongoDB Backend is running!");
 });
-// ------------------------------
-// USE ROUTES
-// ------------------------------
-app.use("/departments", departmentRoutes);
-app.use("/api/departments", departmentRoutes);
-app.use("/api", departmentRoutes);
 
+// ------------------------------
+// USE ROUTES (CLEAN & CORRECT)
+// ------------------------------
+app.use("/departments", departmentRoutes);   // Department + Subjects inside
+app.use("/subjects", subjectRoutes);         // Topics inside subjects
+app.use("/topics", topicRoutes);             // (optional future use)
 
 // ------------------------------
 // ADMIN LOGIN
